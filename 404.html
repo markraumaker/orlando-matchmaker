@@ -16,9 +16,10 @@
   <body>
     <div id="root"></div>
     <script>
-      // Lead capture: intercept form submission and send data to parent via postMessage
       (function() {
+        var LEAD_API = 'https://matchmaker-lead-notify.mark-bd2.workers.dev';
         var sent = false;
+
         document.addEventListener('click', function(e) {
           if (sent) return;
           var btn = e.target;
@@ -39,7 +40,6 @@
           if (!formData.email) return;
 
           var agent = window.__MATCHMAKER_AGENT;
-
           var neighborhood = '';
           var matchScore = '';
           var h1s = document.querySelectorAll('h1');
@@ -50,7 +50,25 @@
 
           sent = true;
 
-          // Send lead data to parent window (LP page) via postMessage
+          // Send to Cloudflare Worker
+          fetch(LEAD_API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              leadName: formData.name || '',
+              leadEmail: formData.email,
+              leadPhone: formData.phone || '',
+              agentName: agent ? agent.name : '',
+              agentEmail: agent ? agent.email : '',
+              agentSlug: agent ? agent.slug : '',
+              neighborhood: neighborhood,
+              matchScore: matchScore
+            })
+          }).then(function(r) { return r.json(); })
+          .then(function(d) { console.log('Lead sent:', d); })
+          .catch(function(err) { console.error('Lead error:', err); sent = false; });
+
+          // Also send to parent LP page
           if (window.parent !== window) {
             window.parent.postMessage({
               type: 'matchmaker-lead',
@@ -63,7 +81,6 @@
               neighborhood: neighborhood,
               matchScore: matchScore
             }, '*');
-            console.log('Lead data sent to parent via postMessage');
           }
         }, true);
       })();
