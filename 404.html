@@ -15,5 +15,58 @@
   </head>
   <body>
     <div id="root"></div>
+    <script>
+      // Lead capture: intercept form submission and send data to parent via postMessage
+      (function() {
+        var sent = false;
+        document.addEventListener('click', function(e) {
+          if (sent) return;
+          var btn = e.target;
+          if (!btn || !btn.textContent) return;
+          var text = btn.textContent.trim();
+          if (text !== 'Send My Guide') return;
+
+          var parent = btn.closest('div');
+          if (!parent) return;
+          var inputs = parent.querySelectorAll('input');
+          var formData = {};
+          inputs.forEach(function(inp) {
+            if (inp.type === 'email') formData.email = inp.value;
+            else if (inp.type === 'tel') formData.phone = inp.value;
+            else if (inp.type === 'text') formData.name = inp.value;
+          });
+
+          if (!formData.email) return;
+
+          var agent = window.__MATCHMAKER_AGENT;
+
+          var neighborhood = '';
+          var matchScore = '';
+          var h1s = document.querySelectorAll('h1');
+          if (h1s.length > 0) neighborhood = h1s[0].textContent.trim();
+          var allText = document.body.innerText;
+          var scoreMatch = allText.match(/(\d+)%\s*Match/);
+          if (scoreMatch) matchScore = scoreMatch[1];
+
+          sent = true;
+
+          // Send lead data to parent window (LP page) via postMessage
+          if (window.parent !== window) {
+            window.parent.postMessage({
+              type: 'matchmaker-lead',
+              leadName: formData.name || '',
+              leadEmail: formData.email,
+              leadPhone: formData.phone || '',
+              agentName: agent ? agent.name : '',
+              agentEmail: agent ? agent.email : '',
+              agentSlug: agent ? agent.slug : '',
+              neighborhood: neighborhood,
+              matchScore: matchScore
+            }, '*');
+            console.log('Lead data sent to parent via postMessage');
+          }
+        }, true);
+      })();
+    </script>
   </body>
 </html>
