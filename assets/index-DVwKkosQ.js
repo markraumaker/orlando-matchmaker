@@ -215,23 +215,11 @@ Error generating stack: `+e.message+`
     "phone": "(407) 690-4973",
     "slug": "lisell-melo"
   },
-  "michael-mouris": {
-    "name": "Michael Mouris",
-    "email": "mikemouris@serhant.com",
-    "phone": "(407) 473-3790",
-    "slug": "michael-mouris"
-  },
   "ellene-ortega": {
     "name": "Ellene Ortega",
     "email": "elleneortega@serhant.com",
     "phone": "(407) 777-1405",
     "slug": "ellene-ortega"
-  },
-  "paul-petroski": {
-    "name": "Paul Petroski",
-    "email": "ppetroski@serhant.com",
-    "phone": "(631) 664-8089",
-    "slug": "paul-petroski"
   },
   "josue-polo": {
     "name": "Josue Polo",
@@ -275,12 +263,6 @@ Error generating stack: `+e.message+`
     "phone": "(321) 217-9825",
     "slug": "aida-tirado-roman"
   },
-  "gaby-sadler": {
-    "name": "Gaby Sadler",
-    "email": "gabysadler@serhant.com",
-    "phone": "(865) 684-6721",
-    "slug": "gaby-sadler"
-  },
   "vanessa-scotland": {
     "name": "Vanessa Scotland",
     "email": "vanessa.scotland@serhant.com",
@@ -292,12 +274,6 @@ Error generating stack: `+e.message+`
     "email": "rob@serhant.com",
     "phone": "(407) 547-8225",
     "slug": "rob-stack"
-  },
-  "kriselys-tapia": {
-    "name": "Kriselys Tapia",
-    "email": "kriselys@serhant.com",
-    "phone": "(305) 244-7937",
-    "slug": "kriselys-tapia"
   },
   "jocelin-yau": {
     "name": "Jocelin Yau",
